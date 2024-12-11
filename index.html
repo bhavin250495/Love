@@ -11,50 +11,78 @@
             text-align: center;
             margin: 0;
             padding: 20px;
-            background: linear-gradient(to bottom, #ffe4e1, #ffb6c1);
+            background: linear-gradient(to bottom, #ffafbd, #ffc3a0);
+            background-size: 400% 400%;
+            animation: gradientShift 8s ease infinite;
             color: #333;
+            overflow: hidden;
         }
 
         h1 {
             color: #ff1493;
-            font-size: 2rem;
+            font-size: 3rem;
             margin-bottom: 10px;
+            text-shadow: 2px 2px 10px rgba(255, 20, 147, 0.7);
         }
 
         p {
-            font-size: 1.2rem;
+            font-size: 1.5rem;
             line-height: 1.5;
+            color: #fff;
+            text-shadow: 1px 1px 6px rgba(0, 0, 0, 0.4);
         }
 
         img {
-            max-width: 90%;
+            width: 300px;  /* Set the width to 300px */
+            height: 300px; /* Set the height to 300px */
+            object-fit: cover; /* Maintain aspect ratio and cover the area */
             border-radius: 15px;
             margin: 20px 0;
+            transition: transform 0.3s ease;
+        }
+
+
+        img:hover {
+            transform: scale(1.1);
         }
 
         /* Button styles */
         .btn {
             display: inline-block;
             margin-top: 20px;
-            padding: 10px 20px;
-            font-size: 1rem;
+            padding: 12px 30px;
+            font-size: 1.2rem;
             color: #fff;
-            background: #ff1493;
+            background: linear-gradient(45deg, #ff6ec7, #ff1493);
             border: none;
-            border-radius: 5px;
+            border-radius: 25px;
             text-decoration: none;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-            transition: background 0.3s ease;
+            box-shadow: 0 8px 15px rgba(255, 20, 147, 0.5);
+            transition: background 0.3s ease, box-shadow 0.3s ease;
         }
 
         .btn:hover {
-            background: #ff69b4;
+            background: linear-gradient(45deg, #ff1493, #ff6ec7);
+            box-shadow: 0 12px 20px rgba(255, 20, 147, 0.7);
+        }
+
+        /* Animations */
+        @keyframes gradientShift {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
         }
 
         /* Responsive adjustments */
         @media (max-width: 600px) {
             h1 {
-                font-size: 1.5rem;
+                font-size: 2rem;
             }
 
             p {
@@ -62,7 +90,7 @@
             }
 
             .btn {
-                font-size: 0.9rem;
+                font-size: 1rem;
             }
         }
     </style>
@@ -73,73 +101,45 @@
         I made this little page to let you know how much I adore you. <br>
         Your smile lights up my day, and I couldn’t stop myself from telling you! ❤️
     </p>
-    <img src="https://github.com/bhavin250495/Love/blob/main/FullSizeRender.png" alt="Cute Image">
+    <!-- Resized Image -->
+    <img src="https://raw.githubusercontent.com/bhavin250495/Love/refs/heads/main/FullSizeRender.png" alt="Cute Image">
     <p>
         Here's to many more smiles, laughs, and moments together. <br>
         Stay awesome, my favorite human. 🌟
     </p>
-    <a href="#" class="btn" onclick="showFireworks()">Click Me for a Surprise! 🎁</a>
-<canvas id="fireworks" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; display: none; z-index: 1000;"></canvas>
+    <a href="#" class="btn" onclick="showHearts()">Click Me for a Surprise! 🎁</a>
 
-<script>
-    function showFireworks() {
-        const canvas = document.getElementById("fireworks");
-        canvas.style.display = "block";
-        const ctx = canvas.getContext("2d");
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-        const particles = [];
-        const colors = ['#FF5733', '#FFC300', '#DAF7A6', '#C70039', '#900C3F'];
-
-        function Particle(x, y) {
-            this.x = x;
-            this.y = y;
-            this.speedX = (Math.random() - 0.5) * 10;
-            this.speedY = (Math.random() - 0.5) * 10;
-            this.radius = Math.random() * 3 + 1;
-            this.color = colors[Math.floor(Math.random() * colors.length)];
-
-            this.update = function () {
-                this.x += this.speedX;
-                this.y += this.speedY;
-                this.radius *= 0.98;
-            };
-
-            this.draw = function () {
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-                ctx.fillStyle = this.color;
-                ctx.fill();
-            };
-        }
-
-        function createFireworks() {
-            for (let i = 0; i < 100; i++) {
-                particles.push(new Particle(canvas.width / 2, canvas.height / 2));
+    <script>
+        function showHearts() {
+            const numHearts = 50;
+            const hearts = [];
+            for (let i = 0; i < numHearts; i++) {
+                const heart = document.createElement('div');
+                heart.textContent = '❤️';
+                heart.style.position = 'absolute';
+                heart.style.fontSize = `${Math.random() * 30 + 20}px`;
+                heart.style.top = `${Math.random() * -50}px`;
+                heart.style.left = `${Math.random() * window.innerWidth}px`;
+                heart.style.opacity = Math.random() * 0.5 + 0.5;
+                heart.style.animation = `fall ${Math.random() * 4 + 4}s linear infinite`;
+                document.body.appendChild(heart);
+                hearts.push(heart);
             }
         }
 
-        function animate() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            particles.forEach((particle, index) => {
-                if (particle.radius < 0.2) {
-                    particles.splice(index, 1);
-                } else {
-                    particle.update();
-                    particle.draw();
+        // Create falling hearts animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fall {
+                0% {
+                    transform: translateY(0);
                 }
-            });
-
-            if (particles.length > 0) {
-                requestAnimationFrame(animate);
-            } else {
-                canvas.style.display = "none";
+                100% {
+                    transform: translateY(${window.innerHeight + 100}px);
+                }
             }
-        }
-
-        createFireworks();
-        animate();
-    }
-</script>
+        `;
+        document.head.appendChild(style);
+    </script>
 </body>
 </html>
