@@ -8,13 +8,13 @@
         /* General styles */
         body {
             font-family: 'Arial', sans-serif;
-            text-align: center;
             margin: 0;
             padding: 20px;
             background: linear-gradient(to bottom, #ffafbd, #ffc3a0);
             background-size: 400% 400%;
             animation: gradientShift 8s ease infinite;
-            color: #333;
+            color: #fff;
+            text-align: center;
             overflow-x: hidden; /* Prevent horizontal scroll */
             overflow-y: scroll; /* Allow vertical scroll */
         }
@@ -22,34 +22,46 @@
         h1 {
             color: #ff1493;
             font-size: 3rem;
-            margin-bottom: 10px;
+            margin-bottom: 20px;
             text-shadow: 2px 2px 10px rgba(255, 20, 147, 0.7);
         }
 
-        p {
+        /* Card styles */
+        .card {
+            background: #fff;
+            color: #333;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 10px auto;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            min-height: 200px;
+        }
+
+        .card h3 {
             font-size: 1.5rem;
+            color: #ff1493;
+            margin-bottom: 10px;
+        }
+
+        .card p {
+            font-size: 1rem;
             line-height: 1.5;
-            color: #fff;
-            text-shadow: 1px 1px 6px rgba(0, 0, 0, 0.4);
+            color: #555;
         }
 
-        img {
-            width: 300px;  /* Set the width to 300px */
-            height: 300px; /* Set the height to 300px */
-            object-fit: cover; /* Maintain aspect ratio and cover the area */
-            border-radius: 15px;
-            margin: 20px 0;
-            transition: transform 0.3s ease;
+        .card img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            margin-top: 20px;
+            object-fit: cover;
         }
 
-        img:hover {
-            transform: scale(1.1);
-        }
-
-        /* Button styles */
         .btn {
             display: inline-block;
-            margin-top: 20px;
             padding: 12px 30px;
             font-size: 1.2rem;
             color: #fff;
@@ -59,6 +71,9 @@
             text-decoration: none;
             box-shadow: 0 8px 15px rgba(255, 20, 147, 0.5);
             transition: background 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            z-index: 100;
+            margin-top: 15px;
         }
 
         .btn:hover {
@@ -85,61 +100,95 @@
                 font-size: 2rem;
             }
 
-            p {
-                font-size: 1rem;
+            .card {
+                width: 100%;
+                margin: 10px;
+                min-height: 250px;
+                padding: 10px;
+            }
+
+            .card h3 {
+                font-size: 1.2rem;
+            }
+
+            .card p {
+                font-size: 0.9rem;
             }
 
             .btn {
                 font-size: 1rem;
+                padding: 10px 25px;
             }
         }
+
+        /* Container for cards */
+        .cards-container {
+            display: block;
+            padding: 20px;
+        }
+
+        /* Falling hearts effect */
+        .falling-heart {
+            position: absolute;
+            font-size: 2rem;
+            animation: fall 6s infinite ease-in;
+            opacity: 0.8;
+        }
+
+        @keyframes fall {
+            0% {
+                top: -10%;
+                opacity: 0.8;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                top: 100%;
+                opacity: 0;
+            }
+        }
+
     </style>
 </head>
 <body>
     <h1>You’re Amazing! 🥰</h1>
-    <p>
-        I made this little page to let you know how much I adore you. <br>
-        Your smile lights up my day, and I couldn’t stop myself from telling you! ❤️
-    </p>
-    <!-- Resized Image (300x300) -->
-    <img src="https://raw.githubusercontent.com/bhavin250495/Love/refs/heads/main/FullSizeRender.png" alt="Cute Image">
-    <p>
-        Here's to many more smiles, laughs, and moments together. <br>
-        Stay awesome, my favorite human. 🌟
-    </p>
+    <div class="cards-container">
+        <div class="card">
+            <h3>I made this just for you! 💖</h3>
+            <p>Your smile lights up my day, and I couldn't wait to tell you how much I adore you. ❤️</p>
+        </div>
+        <div class="card">
+            <h3>Stay awesome, my favorite human! 🌟</h3>
+            <p>Every moment with you is precious, and I'm so grateful for you. 😊</p>
+        </div>
+        <div class="card">
+            <h3>Here's to many more smiles and laughs! 🎉</h3>
+            <p>Looking forward to more amazing memories together. 😻</p>
+            <img src="https://raw.githubusercontent.com/bhavin250495/Love/refs/heads/main/FullSizeRender.png" alt="Cute Image">
+        </div>
+    </div>
+    
+    <!-- Position the button fixed at the top -->
     <a href="#" class="btn" onclick="showHearts()">Click Me for a Surprise! 🎁</a>
 
     <script>
+        // Function to generate falling hearts
         function showHearts() {
-            const numHearts = 50;
-            const hearts = [];
+            const container = document.createElement('div');
+            container.id = 'falling-hearts-container';
+            document.body.appendChild(container);
+
+            const numHearts = 30;
             for (let i = 0; i < numHearts; i++) {
                 const heart = document.createElement('div');
+                heart.classList.add('falling-heart');
                 heart.textContent = '❤️';
-                heart.style.position = 'absolute';
-                heart.style.fontSize = `${Math.random() * 30 + 20}px`;
-                heart.style.top = `${Math.random() * -50}px`;
-                heart.style.left = `${Math.random() * window.innerWidth}px`;
-                heart.style.opacity = Math.random() * 0.5 + 0.5;
-                heart.style.animation = `fall ${Math.random() * 4 + 4}s linear infinite`;
-                document.body.appendChild(heart);
-                hearts.push(heart);
+                heart.style.left = `${Math.random() * 100}%`;
+                heart.style.animationDuration = `${Math.random() * 4 + 4}s`;
+                container.appendChild(heart);
             }
         }
-
-        // Create falling hearts animation
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes fall {
-                0% {
-                    transform: translateY(0);
-                }
-                100% {
-                    transform: translateY(${window.innerHeight + 100}px);
-                }
-            }
-        `;
-        document.head.appendChild(style);
     </script>
 </body>
 </html>
