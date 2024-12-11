@@ -78,6 +78,68 @@
         Here's to many more smiles, laughs, and moments together. <br>
         Stay awesome, my favorite human. 🌟
     </p>
-    <a href="#" class="btn">Click Me for a Surprise! 🎁</a>
+    <a href="#" class="btn" onclick="showFireworks()">Click Me for a Surprise! 🎁</a>
+<canvas id="fireworks" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; display: none; z-index: 1000;"></canvas>
+
+<script>
+    function showFireworks() {
+        const canvas = document.getElementById("fireworks");
+        canvas.style.display = "block";
+        const ctx = canvas.getContext("2d");
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        const particles = [];
+        const colors = ['#FF5733', '#FFC300', '#DAF7A6', '#C70039', '#900C3F'];
+
+        function Particle(x, y) {
+            this.x = x;
+            this.y = y;
+            this.speedX = (Math.random() - 0.5) * 10;
+            this.speedY = (Math.random() - 0.5) * 10;
+            this.radius = Math.random() * 3 + 1;
+            this.color = colors[Math.floor(Math.random() * colors.length)];
+
+            this.update = function () {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                this.radius *= 0.98;
+            };
+
+            this.draw = function () {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fillStyle = this.color;
+                ctx.fill();
+            };
+        }
+
+        function createFireworks() {
+            for (let i = 0; i < 100; i++) {
+                particles.push(new Particle(canvas.width / 2, canvas.height / 2));
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach((particle, index) => {
+                if (particle.radius < 0.2) {
+                    particles.splice(index, 1);
+                } else {
+                    particle.update();
+                    particle.draw();
+                }
+            });
+
+            if (particles.length > 0) {
+                requestAnimationFrame(animate);
+            } else {
+                canvas.style.display = "none";
+            }
+        }
+
+        createFireworks();
+        animate();
+    }
+</script>
 </body>
 </html>
